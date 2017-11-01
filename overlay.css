@@ -1,22 +1,16 @@
 .overlay-bg {
   position: fixed;
+  z-index: 9001;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0,0,0,.5);
+  background: rgba(25,45,48,.85);
   overflow: auto;
   display: none;
+  justify-content: center;
+  align-items: center;
 }
 .overlay-bg.active {
-  display: block;
-}
-
-.overlay-content {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  display: flex;
 }

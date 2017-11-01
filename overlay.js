@@ -12,12 +12,14 @@
 
   var ol = self.Overlay = {
 
-    open: function(url, cb) {
+    open: function(url, callbacks) {
+      callbacks = callbacks || {};
       getRequest(url, function(html) {
         ol.background.insertAdjacentHTML('afterbegin', html);
         ol.background.firstChild.classList.add('overlay-content');
         ol.background.classList.add('active');
-        if(cb) ol.acceptCB = cb;
+        if (callbacks.load) callbacks.load(ol.background.firstChild);
+        ol.acceptCB = callbacks.accept;
       });
     },
 
@@ -28,7 +30,7 @@
     },
 
     accept: function() {
-      ol.acceptCB();
+      if(ol.acceptCB) ol.acceptCB();
       ol.close();
     }
 
