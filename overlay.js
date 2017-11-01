@@ -2,7 +2,6 @@
 
   function getRequest(url, cb) {
     var req = new XMLHttpRequest();
-    req.responseType = 'text';
     req.addEventListener('load', function() {
       if(cb) cb(req.response);
     });
