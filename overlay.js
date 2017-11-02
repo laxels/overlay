@@ -3,7 +3,7 @@
   function getRequest(url, cb) {
     var req = new XMLHttpRequest();
     req.addEventListener('load', function() {
-      if(cb) cb(req.response);
+      if (cb) cb(req.response);
     });
     req.open('GET', url);
     req.send();
@@ -12,34 +12,27 @@
 
   var ol = self.Overlay = {
 
-    open: function(url, callbacks) {
-      callbacks = callbacks || {};
+    open: function(url, cb) {
       getRequest(url, function(html) {
         ol.background.insertAdjacentHTML('afterbegin', html);
         ol.background.firstChild.classList.add('overlay-content');
+        ol.background.firstChild.addEventListener('click', function(e){e.stopPropagation()});
         ol.background.classList.add('active');
-        if (callbacks.load) callbacks.load(ol.background.firstChild);
-        ol.acceptCB = callbacks.accept;
+        if (cb) cb(ol.background.firstChild);
       });
     },
 
     close: function() {
       ol.background.classList.remove('active');
       ol.background.innerHTML = '';
-      delete ol.acceptCB;
-    },
-
-    accept: function() {
-      if(ol.acceptCB) ol.acceptCB();
-      ol.close();
     }
 
   };
 
   ol.background = document.createElement('div');
   ol.background.classList.add('overlay-bg');
-  ol.background.addEventListener('keydown', function(e) {
-    console.log(e.key);
+  ol.background.addEventListener('click', ol.close);
+  document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') ol.close();
   });
 
